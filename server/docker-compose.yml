@@ -1,0 +1,32 @@
+version: '3'
+services:
+  express-app:
+    build: ./
+    ports:
+      - '4444:4444'
+    depends_on:
+      - db
+      - react-app 
+    environment:
+      DATABASE_URL: "mongodb+srv://zoimy2000:zoimy2000@cluster0.zcaawkl.mongodb.net/Cluster0?retryWrites=true&w=majority&appName=Cluster0"
+    volumes:
+      - ./server/uploads:/app/uploads   # Монтируем локальную папку uploads в контейнер
+
+  db:
+    image: prismagraphql/mongo-single-replica:5.0.3
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: nizen
+      MONGO_INITDB_ROOT_PASSWORD: pass
+
+  react-app:
+    build: ../client
+    ports:
+      - '80:80'
+      - '8000:8000'
+    volumes:
+      - react_app:/usr/share/nginx/html
+
+volumes:
+  react_app:
