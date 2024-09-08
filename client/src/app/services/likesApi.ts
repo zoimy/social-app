@@ -3,7 +3,7 @@ import { api } from "./api";
 
 export const likesApi = api.injectEndpoints({
 	endpoints: (builder) => ({
-		like: builder.mutation<
+		likePost: builder.mutation<
 			Like,
 			{ postId: string }
 		>({
@@ -13,7 +13,7 @@ export const likesApi = api.injectEndpoints({
 				body,
 			})
 		}),
-		deleteLike: builder.mutation<
+		deletePostLike: builder.mutation<
 			void,
 			string
 		>({
@@ -22,17 +22,36 @@ export const likesApi = api.injectEndpoints({
 				method: "DELETE",
 			})
 		}),
-	})
+		likeComment: builder.mutation<Like, { commentId: string }>({
+			query: (body) => ({
+				url: "/comment-likes",
+				method: "POST",
+				body,
+			}),
+		}),
+		deleteCommentLike: builder.mutation<void, {commentId: string}>({
+			query: ({commentId}) => ({
+				url: `/comment-likes`,
+				method: "DELETE",
+				body: {commentId}
+			}),
+		}),
+	}),
+
 })
 
 export const {
-	useDeleteLikeMutation,
-	useLikeMutation
+	useLikeCommentMutation,
+	useLikePostMutation,
+	useDeletePostLikeMutation,
+	useDeleteCommentLikeMutation,
 } = likesApi
 
 export const {
 	endpoints: {
-		like,
-		deleteLike
+		likeComment,
+		likePost,
+		deletePostLike,
+		deleteCommentLike
 	}
 } = likesApi

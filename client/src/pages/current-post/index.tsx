@@ -5,12 +5,20 @@ import { Spinner } from '@nextui-org/react'
 import Card from '../../components/card'
 import GoBack from '../../components/go-back'
 import CommentCreate from '../../components/comment-create'
+import { useGetCommentsQuery } from '../../app/services/commentsApi'
 
 const CurrentPost = () => {
-	const params = useParams<{ id: string }>()
-	const { data } = useGetPostByIdQuery(params?.id ?? "")
+	const params = useParams<{ id: string }>();
+	const { data, isLoading: isPostLoading } = useGetPostByIdQuery(params?.id ?? "");
 
-	if (!data) return <Spinner size='lg' className='flex justify-center mt-24 ' />
+	// const { data: commentsData, isLoading: isCommentsLoading } = useGetCommentsQuery({
+	// 	postId: data?.id, 
+	// 	parentCommentId: data?.comments[0]?.parentCommentId,
+	// });
+
+	// console.log(commentsData);
+
+	if (isPostLoading || !data) return <Spinner size='lg' className='flex justify-center mt-24' />;
 
 	const {
 		id,
@@ -21,7 +29,9 @@ const CurrentPost = () => {
 		createdAt,
 		likedByUser,
 		likes
-	} = data
+	} = data;
+
+	// if (isCommentsLoading) return <Spinner size='lg' className='flex justify-center mt-24' />;
 
 	return (
 		<>

@@ -63,7 +63,8 @@ const PostController = {
 				include: {
 					comments: {
 						include: {
-							user: true
+							user: true,
+							likes: true
 						}
 					},
 					likes: true,
@@ -75,13 +76,17 @@ const PostController = {
 				return res.status(404).json({ error: "Post not found" });
 			}
 
-			const likedByUser = {
+			const postWithLikeInfo = {
 				...post,
-				likedByUser: post.likes.some(like => like.userId === userId)
-			}
+				likedByUser: post.likes.some(like => like.userId === userId),
+				comments: post.comments.map(comment => ({
+					...comment,
+					likedByUser: comment.likes.some(like => like.userId === userId)
+				}))
+			};
 
 
-			res.json(likedByUser)
+			res.json(postWithLikeInfo)
 		} catch (error) {
 			console.error("Error in getUserById:", error);
 			res.status(500).json({ error: "Internal server error" });

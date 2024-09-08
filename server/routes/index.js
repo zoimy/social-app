@@ -31,10 +31,15 @@ router.delete("/posts/:id", checkAuth, PostController.deletePost);
 /* Comments routes */
 router.post("/comments", checkAuth, CommentsController.createComment);
 router.delete("/comments/:id", checkAuth, CommentsController.deleteComment);
+router.get("/comments/:postId", checkAuth, CommentsController.getComments);
 
 /* Likes routes */
 router.post("/likes", checkAuth, LikesController.like);
 router.delete("/likes/:id", checkAuth, LikesController.deleteLike);
+
+/* Comments-likes routes */
+router.post("/comment-likes", checkAuth, LikesController.likeComment);
+router.delete("/comment-likes", checkAuth, LikesController.deleteLikeComment);
 
 /* Follows routes */
 router.post("/follow", checkAuth, FollowsController.follow);

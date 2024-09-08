@@ -43,6 +43,7 @@ export type Like = {
 	userId: string
 	post: Post
 	postId: string
+	commentId?: string
 }
 
 export type Comment = {
@@ -52,4 +53,7 @@ export type Comment = {
 	userId: string
 	post: Post
 	postId: string
+	parentCommentId?: string;
+	comments: Comment[];
+	likedByUser: boolean;
 }

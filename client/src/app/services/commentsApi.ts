@@ -1,16 +1,44 @@
 import { Comment } from "../types";
 import { api } from "./api";
 
+type CreateCommentPayload = {
+	content: string;
+	postId: string;
+	parentCommentId?: string; // Optional for replies
+}
+
+type GetCommentsQueryParams = {
+	postId: string | undefined;
+}
+
 export const commentsApi = api.injectEndpoints({
 	endpoints: (builder) => ({
+		getComments: builder.query<
+			Comment[],
+			GetCommentsQueryParams
+		>({
+			query: ({ postId }) => ({
+				url: `/comments/${postId}`,
+				method: "GET"
+			})
+		}),
 		createComment: builder.mutation<
 			Comment,
-			Partial<Comment>
+			{ content: string; postId: string; parentCommentId?: string }
 		>({
-			query: (commentData) => ({
+			query: ({ content, postId, parentCommentId }) => ({
 				url: "/comments",
 				method: "POST",
-				body: commentData,
+				body: { content, postId, parentCommentId },
+			})
+		}),
+		getCommentReplies: builder.mutation<
+			Comment[],
+			{parentCommentId: string}
+		>({
+			query: ({parentCommentId}) => ({
+				url: `/comments/${parentCommentId}/replies`,
+				method: "GET",
 			})
 		}),
 		deleteComment: builder.mutation<
@@ -27,12 +55,16 @@ export const commentsApi = api.injectEndpoints({
 
 export const {
 	useCreateCommentMutation,
-	useDeleteCommentMutation
+	useDeleteCommentMutation,
+	useGetCommentsQuery,
+	useGetCommentRepliesMutation,
 } = commentsApi
 
 export const {
 	endpoints: {
 		createComment,
-		deleteComment
+		deleteComment,
+		getComments,
+		getCommentReplies,
 	}
 } = commentsApi
