@@ -11,7 +11,7 @@ type Props = {
 
 export const NavButton: React.FC<Props> = ({ children, icon, href, isActive }) => {
   return (
-    <Button className={ "flex justify-start text-xl"} icon={icon} color={isActive ? 'primary': 'default'}>
+    <Button className={ "min-w-[200px] flex justify-start text-xl"} icon={icon} color={isActive ? 'primary': 'default'}>
       <Link to={href}>
         {children}
       </Link>

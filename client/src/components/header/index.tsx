@@ -8,13 +8,13 @@ import {
   Input,
   Card,
   useDisclosure,
-	RadioGroup,
-	Radio,
-	Modal,
-	ModalContent,
-	ModalHeader,
-	ModalBody,
-	ModalFooter,
+  RadioGroup,
+  Radio,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react"
 import { ThemeContext } from "../theme-provider"
 import { FaMoon, FaSearch, FaSun } from "react-icons/fa"
@@ -82,69 +82,66 @@ const Header = () => {
             <Input
               radius="md"
               type="text"
-              placeholder="Enter username"
+              placeholder="Enter email"
               defaultValue="nick@mail.ru"
               className="max-w-[620px]"
+							variant="bordered"
               {...register("email")}
             />
-            <Button type="submit" size="md" color="primary">
+            <Button
+              type="submit"
+              size="md"
+              color="primary"
+							variant="shadow"
+              onPress={onOpen}
+              className="max-w-fit"
+            >
               <FaSearch />
             </Button>
+            {/* <Button type="submit" size="md" color="primary">
+              <FaSearch />
+            </Button> */}
           </form>
         </NavbarContent>
 
         {searchResult && (
-          // <Card className="mt-4 rounded-lg px-2 py-1">
-          //   <div className="">
-          //     <div className="">
-          //       <div>
-          //         <img src={searchResult?.avatarUrl} alt="" />
-          //       </div>
-
-          //       <div className="text-center">
-          //         <Link to={`/users/${searchResult?._id}`} state={{userData: searchResult}}>
-          //           {searchResult?.email}
-          //         </Link>
-          //       </div>
-          //     </div>
-          //   </div>
-          // </Card>
           <div className="flex flex-col gap-2">
-            <Button onPress={onOpen} className="max-w-fit">
-              Open Modal
-            </Button>
             <Modal
               isOpen={isOpen}
               placement="top-center"
               onOpenChange={onOpenChange}
+							className={theme === "dark" ? "bg-neutral-900 text-white" : "bg-white text-black"}
             >
               <ModalContent>
                 {onClose => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      Modal Title
-                    </ModalHeader>
-                    <ModalBody>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
+                    <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+                    <ModalBody className="mt-4 rounded-lg px-2 py-1 ">
+                        <div className="">
+                          <div className="">
+                            <div>
+                              <img src={searchResult?.avatarUrl} alt="" />
+                            </div>
+
+                            <div className="text-center">
+                              <Button
+                                color="primary"
+                                variant="shadow"
+                                onPress={onClose}
+                              >
+                                <Link
+                                  to={`/users/${searchResult?._id}`}
+                                  state={{ userData: searchResult }}
+                                >
+                                  {searchResult?.email}
+                                </Link>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
                     </ModalBody>
                     <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                      <Button color="primary" onPress={onClose}>
-                        Action
-                      </Button>
+                    
                     </ModalFooter>
                   </>
                 )}
@@ -165,7 +162,7 @@ const Header = () => {
           {isAuth && (
             <Button
               onClick={handleLogout}
-              variant="flat"
+              variant="shadow"
               className="bg-red-800 gap-2 text-base items-center"
             >
               <span>

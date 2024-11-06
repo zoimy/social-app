@@ -24,7 +24,7 @@ export const Button: FC<Props> = ({ children, icon, className, type, fullWidth, 
 			className={className}
 			type={type}
 			size='lg'
-			variant='light'
+			variant='shadow'
 			fullWidth={fullWidth}
 			color={color}
 		>
